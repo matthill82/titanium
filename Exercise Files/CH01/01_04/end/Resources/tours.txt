@@ -1,0 +1,110 @@
+	var tours = [
+		{
+			title: "Backpack Cal",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/backpackCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "California Calm",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/calmCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "California Hotsprings",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/hotspringsCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "Cycle California",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/cycleCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "From Desert to Sea",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/desertCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "Kids California",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/kidsCalThumb.png",
+			hasChild: true,
+			className: "tableRow",
+		},
+		{
+			title: "Nature Watch",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/natureWatchCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "Snowboard Cali",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/snowboardCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		},
+		{
+			title: "Taste of California",
+			color: "#000",
+			font:{
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+				fontSize: 18,
+				fontWeight: "bold"
+			},
+			leftImage: "/images/tasteCalThumb.png",
+			hasChild: true,
+			className: "tableRow"
+		}
+	];

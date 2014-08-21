@@ -1,0 +1,19 @@
+body, html{
+	/* Note that we can use the custom font we loaded */
+	font-family: "Aller", Arial, sans-serif;
+	font-size: 0.95em;
+	line-height: 1.5em;
+	background: #e2dab4;
+}
+h1{
+	font-size: 120%;
+	font-family: "ChunkFive", "Chunkfive"; /*The second declaration is for Android*/
+	margin-bottom: -12px;
+}
+dt{
+	color:#3b6b91;
+	font-style: italic;
+}
+dd{
+	margin: 0 0 12px 18px;
+}

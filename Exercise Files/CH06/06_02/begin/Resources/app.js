@@ -1,0 +1,149 @@
+//We'll enclose our code in a self-invoking function to avoid
+//inadvertent pollution of the global namespace
+
+(function(){
+	// this sets the background color of the master UIView (when there are no windows/tab groups on it)
+	Titanium.UI.setBackgroundColor('#000');
+
+	var TourView = require("/views/TourView");
+	var DetailView = require("/views/DetailView"); //Remember: this is a function
+	var Prefs = require("/Prefs");
+
+	var tabGroup = Titanium.UI.createTabGroup();
+
+	var mainWindow = Titanium.UI.createWindow({
+		title: "Explore California",
+		backgroundColor: "#FFF",
+		fullscreen: false,	//[Android: makes the window a "heavyweight" window (thereby allowing the back button to work with it)]
+		exitOnClose: true, //[Android: make the application exit if the back button is pressed from the main window]
+		navBarHidden: false,
+		tabBarHidden: true
+	});
+	var tab = Titanium.UI.createTab({
+		icon:'KS_nav_views.png', //Irrelevant; we are hiding the tab bar
+		title:'Tab 1', //Irrelevant; we are hiding the tab bar
+		window:mainWindow
+	});
+
+	var tourView = new TourView();
+	
+	mainWindow.add(tourView);
+
+	tourView.addEventListener("click", function(e){
+		var detailView = new DetailView({
+			detailTitle: e.rowData.detailTitle,
+			mainImage: e.rowData.mainImage,
+			detail: e.rowData.detail
+		});
+		tab.open(detailView, {animated: true});
+		Ti.App.fireEvent("clickSound", {caller: "newWindow"});
+	});
+
+	var soundIsOn = Prefs.read().soundIsOn;
+
+	//Preferences include
+	if(Ti.Platform.osname === "android"){
+		//Android
+		//Use an Android menu
+		//Since we are using a tabGroup as the main application shell,
+		//we listen for the "open" event and then create a menu by
+		//utilizing the activity property of the group
+		//If we were using an ordinary window, we'd add the event listener
+		//to the window
+		tabGroup.addEventListener("open", function() {
+
+			var activity = tabGroup.activity;
+
+			activity.onCreateOptionsMenu = function(e) {
+				var menu = e.menu;
+				
+				var emailDialog = menu.add({title: "Contact us"});
+				var soundPrefs = menu.add({title: "Interface Sounds"});
+
+				//Display different images based on the value of soundIsOn
+				if(soundIsOn){
+					soundPrefs.setIcon(Titanium.Android.R.drawable.ic_lock_silent_mode);
+					soundIsOn = 0;
+				} else {
+					soundPrefs.setIcon(Titanium.Android.R.drawable.ic_lock_silent_mode_off);
+					soundIsOn = 1;
+				}
+
+				soundPrefs.addEventListener("click", function(e){
+					Ti.App.fireEvent("toggleSound");
+					
+					if(soundIsOn){
+						soundPrefs.setIcon(Titanium.Android.R.drawable.ic_lock_silent_mode);
+					} else {
+						soundPrefs.setIcon(Titanium.Android.R.drawable.ic_lock_silent_mode_off);
+					}
+				});
+
+				emailDialog.setIcon(Titanium.Android.R.drawable.ic_dialog_email);
+
+				emailDialog.addEventListener("click", function(e){
+					var email = Ti.UI.createEmailDialog({
+						html: true, //So that we can use html-formatted text
+						subject: "Explore California with Me",
+						toRecipients: ["fake.address@emailaddy.com"], //notice the array
+						messageBody: "<p>Explore California!</p><p>Indeed I will</p>"
+					});
+					email.open();
+				});
+			};
+
+		});
+	} else {
+		//iOS
+		//Create a button for the window navBar
+
+		var iOSPrefsView = require("/views/iOSPrefsView");
+
+		var prefsButton = Ti.UI.createButton({
+			systemButton: Ti.UI.iPhone.SystemButton.INFO_LIGHT //iOS only
+		});
+
+		prefsButton.addEventListener("click", function(e){
+
+			var prefsView = new iOSPrefsView();
+
+			//In this case, the preferencesView is a standalone window that isn't
+			//part of the broader content flow.
+			//For this reason, we open the window as a modal window using the window's
+			//open method while passing an object that has a property "modal" set to true
+			prefsView.open({modal: true});
+		});
+		//Set the button on the mainWindow object
+		//Because it is set on the mainWindow object, it does NOT need to be added via the .add() method
+		mainWindow.setLeftNavButton(prefsButton);
+	}
+
+	//Create handles for the click sound
+	var clickSoundFilename = "/media/click";
+	clickSoundFilename += (Ti.Platform.osname === "android") ? ".ogg" : ".caf" ;
+	var click = Titanium.Media.createSound({//This is for short sounds (e.g. interface sounds)
+		url: clickSoundFilename,
+		preload: true
+	});
+	Ti.App.addEventListener("clickSound", function(e){
+		if(Prefs.read().soundIsOn){
+			click.play();
+		}
+	});
+
+	Ti.App.addEventListener("toggleSound", function(e){
+		if(soundIsOn){
+			soundIsOn = 0;
+		} else {
+			soundIsOn = 1;
+		}
+		//Save the sound preferences
+		Prefs.save({soundIsOn: soundIsOn});
+	});
+
+	tabGroup.addTab(tab);
+
+	// open tab group
+	tabGroup.open();
+
+})();

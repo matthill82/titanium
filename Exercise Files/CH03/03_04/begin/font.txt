@@ -1,0 +1,12 @@
+font: {
+	fontSize: "16dp",
+	fontFamily: (Ti.Platform.osname === "android") ? "Aller_Bd" : "Aller",
+	fontWeight: "bold"
+},
+top: "156dp",
+right: "12dp",
+color: "#FFF",
+textAlign: Ti.UI.TEXT_ALIGNMENT_RIGHT,
+//Shadow: iOS only
+shadowColor: "#1a3743",
+shadowOffset: {x:1, y:1}

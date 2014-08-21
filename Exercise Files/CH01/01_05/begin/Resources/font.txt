@@ -1,0 +1,4 @@
+			font:{
+				fontSize: 10,
+				fontFamily: (Ti.Platform.osname === "android") ? "Aller_Lt" : "Aller Light"
+			}
